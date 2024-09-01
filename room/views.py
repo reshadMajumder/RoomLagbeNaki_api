@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Ad, AdImage
-from .serializers import AdSerializer, AdImageSerializer
+from .models import Ad, AdImage,Banner
+from .serializers import AdSerializer, AdImageSerializer,BannerSerializer
 
 
 
@@ -84,3 +84,15 @@ def user_ads_list_by_id(request, user_id):
     serializer = AdSerializer(ads, many=True)
     return Response(serializer.data)
     #=======================show ads by user end================
+
+#================show banner======================
+@api_view(['GET'])
+def get_banner(request):
+    try:
+        banner = Banner.objects.order_by('?').first()
+        serializer = BannerSerializer(banner)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response({"error": "Failed to retrieve banner"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+#================show banner======================

@@ -73,14 +73,11 @@ def register_view(request):
 
 
 #==============update user =====================
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def update_user_view(request):
-    user = request.user
-    serializer = UserSerializer(user, data=request.data, partial=True)
-
-    if serializer.is_valid():
-        serializer.save()
+@api_view(['GET'])
+def get_user_by_id(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+        serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)

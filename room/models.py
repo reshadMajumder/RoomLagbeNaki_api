@@ -14,9 +14,22 @@ class Ad(models.Model):
     room_type = models.CharField(max_length=50)
     images = models.ManyToManyField('AdImage', blank=True)
     phone=models.CharField(max_length=20,null=True)
-
+    date = models.DateTimeField(auto_now=True,null=True)
     def __str__(self):
         return self.title
 
 class AdImage(models.Model):
     image = models.ImageField(upload_to='ads/images/')
+
+
+
+class Banner(models.Model):
+    image = models.ImageField(upload_to='banners/')
+    alt_text = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.alt_text or "Banner"
+
+    class Meta:
+        verbose_name = 'Banner'
+        verbose_name_plural = 'Banners'
