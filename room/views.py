@@ -48,3 +48,40 @@ def list_ads(request):
         return Response({"error": "Failed to retrieve ads"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #=======================ad list end================
+
+#=======================show ads by user start================
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def user_ad_detail(request, pk):
+
+    try:
+        
+        ad = Ad.objects.get(pk=pk, user=request.user)
+    except Ad.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+
+        serializer = AdSerializer(ad)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = AdSerializer(ad, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        ad.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_ads_list(request):
+    ads = Ad.objects.filter(user=request.user)
+    serializer = AdSerializer(ads, many=True)
+    return Response(serializer.data)
+
+    #=======================show ads by user end================

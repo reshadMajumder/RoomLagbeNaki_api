@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 
 from authentication.views import login_view,logout_view,register_view
-from room.views import post_ad,list_ads
+from room.views import post_ad,list_ads,user_ad_detail,user_ads_list
 # from addrooms.views import upload_room,list_rooms
 
 urlpatterns = [
@@ -14,7 +14,12 @@ urlpatterns = [
     path('register/', register_view, name='register'),
 
     path('post-ad/', post_ad, name='post-ad'),
-    path('ads/view/', list_ads, name='list_ads'),
+    path('ads/view/',list_ads, name='list_ads'),
+    path('ads/view/user/', list_ads, name='list_ads'),
+
+
+    path('user/ads/', user_ads_list, name='user-ads-list'),
+    path('user/ads/<int:pk>/', user_ad_detail, name='user-ad-detail'),
 
 
 
