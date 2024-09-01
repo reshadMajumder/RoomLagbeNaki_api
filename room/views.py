@@ -79,9 +79,8 @@ def user_ad_detail(request, pk):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def user_ads_list(request):
-    ads = Ad.objects.filter(user=request.user)
+def user_ads_list_by_id(request, user_id):
+    ads = Ad.objects.filter(user_id=user_id)
     serializer = AdSerializer(ads, many=True)
     return Response(serializer.data)
-
     #=======================show ads by user end================
