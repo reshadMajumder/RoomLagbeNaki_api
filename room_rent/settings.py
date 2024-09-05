@@ -84,10 +84,25 @@ WSGI_APPLICATION = 'room_rent.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+# settings.py
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'verceldb',  # Your database name
+        'USER': 'default',  # Your database user
+        'PASSWORD': '51spiRCAzTLX',  # Your database password
+        'HOST': 'ep-red-waterfall-a4ezd37u-pooler.us-east-1.aws.neon.tech',  # Your database host
+        'PORT': '5432',  # The port that PostgreSQL listens to
+        'OPTIONS': {
+            'sslmode': 'require',  # To ensure SSL is used
+        },
     }
 }
 
